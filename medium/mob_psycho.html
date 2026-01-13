@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mob psycho — picoCTF Forensics</title>
+
+  <!-- Shared CSS/JS -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">Mob psycho</span>
+      </div>
+
+      <h1>Mob psycho</h1>
+      <p class="badges">
+        <span class="badge">APK</span>
+        <span class="badge">unzip</span>
+        <span class="badge">strings</span>
+        <span class="badge">CyberChef</span>
+        <span class="badge">Hex</span>
+      </p>
+
+      <p class="muted">
+        Goal: Pull the flag out of an Android APK by treating it like a zip file, then decode the hidden hex output.
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Challenge Description</h2>
+
+      <p class="muted">
+        Screenshot from the picoCTF challenge page:
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./mob_psycho/challenge.png"
+          alt="Screenshot of the picoCTF challenge description for Mob psycho"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Challenge Overview</h2>
+      <p>
+        The key idea here is simple: <strong>APKs are basically zip files</strong>. So instead of overthinking it,
+        I treated the APK like an archive, found where <code>flag.txt</code> lived, extracted everything, and read the file.
+      </p>
+      <p>
+        The only twist: the file contents weren’t readable plaintext at first — it was a hex blob that needed decoding.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Solution</h2>
+
+      <h3>1) Use <code>strings</code> to locate <code>flag.txt</code></h3>
+      <p>
+        First, I searched through the APK for references to <code>flag.txt</code>. This is a quick way to find where the file
+        might be hiding before extracting anything.
+      </p>
+
+      <pre><code>strings mobpsycho.apk | grep flag.txt</code></pre>
+
+      <p>
+        The output showed <code>res/color/flag.txt</code>, which told me exactly where to look after extraction.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./mob_psycho/step-01.png"
+          alt="Terminal output showing strings grep locating res/color/flag.txt inside the APK"
+        />
+      </div>
+
+      <h3>2) Unzip the APK</h3>
+      <p>
+        Since an APK is a zip archive, I extracted it with <code>unzip</code>.
+      </p>
+
+      <pre><code>unzip mobpsycho.apk</code></pre>
+
+      <h3>3) Read the file from <code>res/color</code></h3>
+      <p>
+        After extraction, I navigated into the directory and printed the contents of <code>flag.txt</code>.
+      </p>
+
+      <pre><code>cd res/color
+cat flag.txt</code></pre>
+
+      <div class="screenshot">
+        <img
+          src="./mob_psycho/step-02.png"
+          alt="Terminal output showing cat flag.txt printing a long hex string"
+        />
+      </div>
+
+      <h3>4) Decode the hex in CyberChef</h3>
+      <p>
+        The output from <code>flag.txt</code> was a hex string, so I copied it into <strong>CyberChef</strong> and used
+        a simple <strong>From Hex</strong> decode to convert it into readable text.
+      </p>
+
+      <h3>Flag</h3>
+      <p>
+        <code>picoCTF{ax8mC0RU6ve_NX85l4ax8mCl_a3eb5ac2}</code>
+      </p>
+
+      <p class="muted">
+        Fast takeaway: if you see an APK in forensics, try “zip brain” first. It’s usually the right brain.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li><code>strings</code> + <code>grep</code> (find file paths inside the APK)</li>
+        <li><code>unzip</code> (extract APK contents)</li>
+        <li><code>cat</code> (read the flag file)</li>
+        <li>CyberChef (hex decoding)</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

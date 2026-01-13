@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>st3g0 — picoCTF Forensics</title>
+
+  <!-- Shared CSS/JS -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">st3g0</span>
+      </div>
+
+      <h1>st3g0</h1>
+      <p class="badges">
+        <span class="badge">zsteg</span>
+        <span class="badge">LSB</span>
+        <span class="badge">PNG</span>
+      </p>
+
+      <p class="muted">
+        Goal: Extract the hidden flag from the image using LSB steganography analysis.
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Challenge Description</h2>
+
+      <p class="muted">Screenshot from the picoCTF challenge page:</p>
+
+      <div class="screenshot">
+        <img
+          src="./st3g0/challenge.png"
+          alt="Screenshot of the picoCTF challenge description for st3g0"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Challenge Overview</h2>
+      <p>
+        The description doesn’t give much, but the challenge name and category point straight to steganography.
+        For PNGs, <code>zsteg</code> is a quick way to scan common LSB/MSB bit-planes and immediately spot embedded text.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Solution</h2>
+
+      <h3>1) Run <code>zsteg</code> on the image</h3>
+      <p>
+        After downloading the provided PNG, I ran <code>zsteg</code> to check for hidden data in the bit planes.
+        The flag shows up directly in the output.
+      </p>
+
+      <pre><code>zsteg pico.flag.png</code></pre>
+
+      <div class="screenshot">
+        <img
+          src="./st3g0/step-01.png"
+          alt="Terminal output showing zsteg revealing the picoCTF flag in the image"
+        />
+      </div>
+
+      <h3>Flag</h3>
+      <p>
+        <code>picoCTF{7h3r3_15_n0_5p00n_a1062667}</code>
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li><code>zsteg</code> (LSB stego scanner for PNGs)</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

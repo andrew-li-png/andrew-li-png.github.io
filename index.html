@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF — Forensics</title>
+
+    <link rel="stylesheet" href="../../assets/styles.css">
+
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../index.html">Home</a>
+        <a class="crumb" href="../index.html">picoCTF</a>
+        <span class="crumb-current">Forensics</span>
+      </div>
+
+      <h1>picoCTF — Forensics</h1>
+      <p>Select a difficulty to view challenge write-ups.</p>
+    </header>
+
+    <!-- EASY -->
+    <h2 class="section-title">Easy</h2>
+    <div class="list">
+      <a class="item" href="./easy/riddle_registry.html">
+        <strong>Riddle Registry</strong>
+        <div class="small muted">PDF metadata — Base64 in Author field</div>
+      </a>
+
+      <a class="item" href="./easy/hidden_in_plainsight.html">
+        <strong>Hidden in Plainsight</strong>
+        <div class="small muted">JPG metadata — steghide breadcrumb &amp; extraction</div>
+      </a>
+
+      <a class="item" href="./easy/flag_in_flame.html">
+        <strong>Flag in Flame</strong>
+        <div class="small muted">Base64 log → PNG → hex → flag</div>
+      </a>
+
+      <a class="item" href="./easy/corrupted_file.html">
+        <strong>Corrupted File</strong>
+        <div class="small muted">JPEG header repair — fix magic bytes &amp; recover image</div>
+      </a>
+
+      <a class="item" href="./easy/disko1.html">
+        <strong>DISKO 1</strong>
+        <div class="small muted">Disk image — gunzip, strings, grep for flag</div>
+      </a>
+
+      <a class="item" href="./easy/red.html">
+        <strong>RED</strong>
+        <div class="small muted">Solid red PNG — LSB stego &amp; Base64 extraction</div>
+      </a>
+
+      <a class="item" href="./easy/phantom_intruder.html">
+        <strong>Ph4nt0m 1ntrud3r</strong>
+        <div class="small muted">PCAP ordering → sort by time → Base64 fragments → flag</div>
+      </a>
+
+      <a class="item" href="./easy/verify.html">
+        <strong>Verify</strong>
+        <div class="small muted">SSH instance + checksum → find matching file &amp; decrypt</div>
+      </a>
+
+      <a class="item" href="./easy/scan_surprise.html">
+        <strong>Scan Surprise</strong>
+        <div class="small muted">Download files — scan QR code</div>
+      </a>
+      <a class="item" href="./easy/secret_of_the_polygot.html">
+        <strong>Secret of the Polyglot</strong>
+        <div class="small muted">Polyglot file (PDF/PNG) — rename to PNG to recover first half of the flag</div>
+      </a>    
+    
+      <a class="item" href="./easy/can_you_see.html">
+        <strong>Can You See</strong>
+        <div class="small muted">Image metadata — hidden Base64 in Attribution URL</div>
+      </a>
+    
+      <a class="item" href="./easy/information.html">
+        <strong>information</strong>
+        <div class="small muted">Image metadata — Base64 in License field</div>
+      </a>
+    
+      <a class="item" href="./easy/glory_of_the_garden.html">
+        <strong>Glory of the Garden</strong>
+        <div class="small muted">Plaintext in JPEG — strings/xxd reveal flag</div>
+      </a>
+    </div>
+
+    <!-- MEDIUM -->
+    <h2 class="section-title">Medium</h2>
+    <div class="list">
+
+      <a class="item" href="./medium/disko2.html">
+        <div><strong>DISKO 2</strong></div>
+        <div class="small">Disk image — deeper filesystem analysis &amp; carving</div>
+      </a>
+
+      <a class="item" href="./medium/disko3.html">
+        <strong>DISKO 3</strong>
+        <div class="small muted">Disk image forensics — compressed flag file discovery with Autopsy</div>
+      </a>
+
+      <a class="item" href="./medium/event_viewing.html">
+        <strong>Event-Viewing</strong>
+        <div class="small muted">Windows log forensics — tracing malware behavior through Event IDs</div>
+      </a>  
+
+      <a class="item" href="./medium/bitlocker1.html">
+        <strong>Bitlocker-1</strong>
+        <div class="small muted">BitLocker disk image — password cracking with hashcat and rockyou</div>
+      </a>
+
+      <a class="item" href="./medium/bitlocker2.html">
+        <strong>Bitlocker-2</strong>
+        <div class="small muted">BitLocker disk image — password cracking with hashcat and rockyou</div>
+      </a>
+
+      <a class="item" href="./medium/mob_psycho.html">
+        <strong>Mob psycho</strong>
+        <div class="small muted">APK forensics — unzip archive, locate flag.txt, and decode hex in CyberChef</div>
+      </a>
+
+      <a class="item" href="./medium/endianness_v2.html">
+        <strong>endianness-v2</strong>
+        <div class="small muted">File repair — reverse 32-bit endianness to reconstruct a hidden JPEG</div>
+      </a>
+
+      <a class="item" href="./medium/pcap_poisoning.html">
+        <strong>PcapPoisoning</strong>
+        <div class="small muted">PCAP analysis — strings/grep or Wireshark Follow TCP Stream to extract the flag</div>
+      </a>
+
+      <a class="item" href="./medium/msb.html">
+        <strong>MSB</strong>
+        <div class="small muted">Steganography — extract bit 7 (MSB) with StegOnline, then strings/grep the recovered text</div>
+      </a>
+
+      <a class="item" href="./medium/hideme.html">
+        <strong>hideme</strong>
+        <div class="small muted">PNG extraction — binwalk reveals and extracts embedded files.</div>
+      </a>
+
+      <a class="item" href="./medium/st3g0.html">
+        <strong>st3g0</strong>
+        <div class="small muted">LSB steganography — extracting hidden data from a PNG with zsteg</div>
+      </a>
+
+      <a class="item" href="./medium/sleuthkit_intro.html">
+        <strong>Sleuthkit Intro</strong>
+        <div class="small muted">Disk image analysis — Linux partition size with mmls</div>
+      </a>
+      
+      <a class="item" href="./medium/sleuthkit_apprentice.html">
+        <strong>Sleuthkit Apprentice</strong>
+        <div class="small muted">Disk image analysis — partition offset + filesystem walk (mmls/fls/icat)</div>
+      </a>
+
+      <a class="item" href="./medium/redaction_gone_wrong.html">
+        <strong>Redaction gone wrong</strong>
+        <div class="small muted">PDF redaction fail — hidden text recoverable via copy/paste</div>
+      </a>
+
+      <a class="item" href="./medium/packets_primer.html">
+        <strong>Packets Primer</strong>
+        <div class="small muted">PCAP analysis — recovering a spaced-out flag from packet payloads</div>
+      </a>
+
+      <a class="item" href="./medium/operation_orchid.html">
+        <strong>Operation Orchid</strong>
+        <div class="small muted">Disk image analysis — recover an encrypted flag via .ash_history + OpenSSL</div>
+      </a>
+
+      <a class="item" href="./medium/lookey_here.html">
+        <strong>Lookey here</strong>
+        <div class="small muted">Known-prefix search in a huge text file with grep</div>
+      </a>
+
+      <a class="item" href="./medium/enhance.html">
+        <strong>Enhance!</strong>
+        <div class="small muted">SVG inspection — reveal tiny hidden text with Ctrl+A</div>
+      </a>
+
+      <a class="item" href="./medium/eavesdrop.html">
+        <strong>Eavesdrop</strong>
+        <div class="small muted">PCAP forensics — extract TCP stream payload + OpenSSL des3 decrypt (strings/Wireshark)</div>
+      </a>
+
+
+      <a class="item" href="./medium/macrohard.html">
+        <div><strong>MacroHard WeakEdge</strong></div>
+        <div class="small">Excel macro forensics / hidden payload analysis.</div>
+      </a>
+
+    </div>
+
+    <!-- HARD -->
+    <h2 class="section-title">Hard</h2>
+    <div class="list">
+      <div class="item">
+        <strong>Coming soon</strong>
+        <div class="small">Advanced forensics challenges.</div>
+      </div>
+    </div>
+
+  </div>
+  <script src="../../assets/site.js" defer></script>
+</body>
+
+</html>

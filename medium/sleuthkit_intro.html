@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>sleuthkit_intro</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+  
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+  <div class="tagline breadcrumbs">
+    <a class="crumb" href="../../../index.html">Home</a>
+    <a class="crumb" href="../../index.html">picoCTF</a>
+    <a class="crumb" href="../index.html">Forensics</a>
+    <span class="crumb-current">Sleuthkit Intro</span>
+  </div>
+
+      <h1>Sleuthkit Intro</h1>
+
+      <div class="badges">
+        <span class="badge">Disk image</span>
+        <span class="badge">SleuthKit</span>
+        <span class="badge">mmls</span>
+        <span class="badge">netcat</span>
+      </div>
+    </header>
+
+    <!-- Challenge Description -->
+    <section class="card">
+      <h2>Challenge Description</h2>
+
+      <p class="muted">
+        Screenshot from the picoCTF challenge page:
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./sleuthkit_intro/challenge.png"
+          alt="picoCTF Sleuthkit Intro challenge description"
+        />
+      </div>
+    </section>
+
+    <!-- Solution -->
+    <section class="card">
+      <h2>Solution</h2>
+
+      <p>
+        This challenge is a straightforward introduction to <strong>SleuthKit</strong>.
+        We are given a disk image and asked to find the size of the Linux partition
+        using <code>mmls</code>.
+      </p>
+
+      <p>
+        After downloading and extracting the disk image, I ran:
+      </p>
+
+      <pre><code>mmls disk.img</code></pre>
+
+      <p>
+        The output clearly shows a Linux partition with a length of
+        <strong>202752 sectors</strong>.
+      </p>
+
+      <p>
+        After launching the instance on the picoCTF page, a checker service is provided.
+        I connected using <code>netcat</code> and entered the partition size:
+      </p>
+
+      <pre><code>nc saturn.picoctf.net 63770</code></pre>
+
+      <div class="screenshot">
+        <img
+          src="./sleuthkit_intro/solution.png"
+          alt="Terminal showing mmls output and netcat submission returning the flag"
+        />
+      </div>
+
+      <p>
+        Submitting the correct value returns the flag immediately.
+      </p>
+
+      <p class="flag">
+        <strong>Flag:</strong> <code>picoCTF{mm15_f7w!}</code>
+      </p>
+    </section>
+
+    <div class="card">
+  <h2>Tools Used</h2>
+  <ul>
+    <li><code>mmls</code> (SleuthKit)</li>
+    <li><code>nc</code> (netcat)</li>
+  </ul>
+</div>
+
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+
+  </div>
+</body>
+</html>

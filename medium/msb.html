@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MSB — picoCTF Forensics</title>
+
+  <!-- Shared CSS/JS -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">MSB</span>
+      </div>
+
+      <h1>MSB</h1>
+      <p class="badges">
+        <span class="badge">Steganography</span>
+        <span class="badge">MSB</span>
+        <span class="badge">StegOnline</span>
+        <span class="badge">strings</span>
+        <span class="badge">grep</span>
+      </p>
+
+      <p class="muted">
+        Goal: Extract hidden data from the most-significant bit plane (bit 7) and carve the flag from the recovered text.
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Challenge Description</h2>
+
+      <p class="muted">Screenshot from the picoCTF challenge page:</p>
+
+      <div class="screenshot">
+        <img
+          src="./msb/challenge.png"
+          alt="Screenshot of the picoCTF challenge description for MSB"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Challenge Overview</h2>
+      <p>
+        We’re given a “corrupted” looking image of
+        <code>Ninja-and-Prince-Genji-Ukiyoe-Utagawa-Kunisada</code>.
+        The challenge title + description hint that something is hiding in the
+        <strong>MSB</strong> (most significant bit), not the usual LSB stuff.
+      </p>
+      <p>
+        The plan: inspect the image bit planes, dump whatever shows up, then search the extracted output for the flag.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Solution</h2>
+
+      <h3>1) Confirm the image is “weird on purpose”</h3>
+      <p>
+        The provided PNG already looks visually noisy / distorted — which usually means there’s
+        some sort of bit-plane manipulation going on.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./msb/step-01.png"
+          alt="The provided 'corrupted' image of Ninja-and-Prince-Genji-Ukiyoe-Utagawa-Kunisada"
+        />
+      </div>
+
+      <h3>2) Extract the MSB plane using StegOnline</h3>
+      <p>
+        I uploaded the image to <strong>StegOnline</strong> and switched to bit-plane extraction.
+        Since we’re hunting MSB, I checked <strong>bit 7</strong> for <strong>R, G, and B</strong>
+        (the most significant bit in each color channel).
+      </p>
+
+      <p>
+        The output instantly looked like real text — it started referencing Project Gutenberg / Don Quixote
+        (very “why is this in my image?” energy).
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./msb/step-02.png"
+          alt="StegOnline bit plane settings showing bit 7 selected for RGB and readable text output"
+        />
+      </div>
+
+      <h3>3) Download the extracted data and carve the flag</h3>
+      <p>
+        I downloaded the recovered output as a text file (named by the tool),
+        then used <code>strings</code> + <code>grep</code> to search for the flag pattern.
+      </p>
+
+      <pre><code>strings Ninja-and-Prince-Genji-Ukiyoe-Utagawa-Kunisadaflag.txt | grep picoCTF</code></pre>
+
+      <div class="screenshot">
+        <img
+          src="./msb/step-03.png"
+          alt="Terminal output showing strings and grep revealing the picoCTF flag from the extracted text"
+        />
+      </div>
+
+      <h3>Flag</h3>
+      <p>
+        <code>picoCTF{15_y0ur_que57_qu1x071c_0r_h3r01c_24d55bee}</code>
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li>StegOnline (bit-plane extraction, MSB / bit 7)</li>
+        <li><code>strings</code> and <code>grep</code> (flag carving)</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

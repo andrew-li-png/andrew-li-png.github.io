@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bitlocker-1 — picoCTF Forensics</title>
+
+  <!-- Shared CSS/JS -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">Bitlocker-1</span>
+      </div>
+
+      <h1>Bitlocker-1</h1>
+      <p class="badges">
+        <span class="badge">Disk Image</span>
+        <span class="badge">BitLocker</span>
+        <span class="badge">hashcat</span>
+        <span class="badge">Autopsy</span>
+        <span class="badge">Password Cracking</span>
+      </p>
+
+      <p class="muted">
+        Goal: Break into a BitLocker-encrypted disk image by cracking a weak user password
+        and recover the hidden flag.
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Challenge Description</h2>
+
+      <p class="muted">
+        Screenshot from the picoCTF challenge page:
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./bitlocker1/challenge.png"
+          alt="Screenshot of the picoCTF Bitlocker-1 challenge description"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Challenge Overview</h2>
+      <p>
+        This challenge focuses on BitLocker disk encryption and what happens when users
+        protect it with a weak password. The disk image itself is encrypted, so the first
+        step isn’t file browsing — it’s cracking the BitLocker password.
+      </p>
+      <p>
+        Once the password is recovered, the image can be unlocked normally and inspected
+        like any other filesystem.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Solution</h2>
+
+      <h3>1) Extract the BitLocker hash</h3>
+      <p>
+        I started by extracting BitLocker hashes from the disk image using
+        <code>bitlocker2john</code>.
+      </p>
+
+      <pre><code>bitlocker2john bitlocker-1.dd</code></pre>
+
+      <p>
+        This output several hashes, but the one we care about is the
+        <strong>user password hash</strong>. I copied that hash and saved it
+        to a file called <code>bitlocker.hash</code>.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./bitlocker1/step-01.png"
+          alt="Terminal output showing bitlocker2john extracting the user password hash"
+        />
+      </div>
+
+      <h3>2) Crack the password with hashcat</h3>
+      <p>
+        With the hash saved, I used <code>hashcat</code> in BitLocker mode
+        (<code>-m 22100</code>) along with the <code>rockyou.txt</code> wordlist.
+      </p>
+
+      <pre><code>hashcat -m 22100 bitlocker.hash /usr/share/wordlists/rockyou.txt</code></pre>
+
+      <p>
+        The password was cracked almost immediately:
+        <strong><code>jacqueline</code></strong>.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./bitlocker1/step-02.png"
+          alt="Hashcat output showing the cracked BitLocker password jacqueline"
+        />
+      </div>
+
+      <h3>3) Unlock the disk image in Autopsy</h3>
+      <p>
+        Next, I loaded the disk image into <strong>Autopsy</strong>. When adding the
+        data source, Autopsy prompts for an optional BitLocker password.
+        I entered the cracked password (<code>jacqueline</code>), and the
+        filesystem unlocked successfully.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./bitlocker1/step-03.png"
+          alt="Autopsy add data source screen with BitLocker password entered"
+        />
+      </div>
+
+      <h3>4) Locate the flag</h3>
+      <p>
+        Once decrypted, the filesystem was fully accessible. The flag file
+        (<code>flag.txt</code>) was sitting directly at the root of the disk image.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./bitlocker1/result.png"
+          alt="Autopsy showing flag.txt with the picoCTF flag visible"
+        />
+      </div>
+
+      <h3>Flag</h3>
+      <p>
+        <code>picoCTF{us3_b3tt3r_p4ssw0rd5_pl5!_3242adb1}</code>
+      </p>
+
+      <p class="muted">
+        This challenge is a textbook example of why full-disk encryption is only
+        as strong as the password protecting it.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li><code>bitlocker2john</code> (hash extraction)</li>
+        <li><code>hashcat</code> + <code>rockyou.txt</code> (password cracking)</li>
+        <li>Autopsy (BitLocker decryption and filesystem browsing)</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

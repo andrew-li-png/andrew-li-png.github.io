@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>packets_primer — picoCTF Forensics</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">packets_primer</span>
+      </div>
+
+      <h1>Packets Primer</h1>
+
+      <p class="badges">
+        <span class="badge">Wireshark</span>
+        <span class="badge">PCAP</span>
+      </p>
+
+      <p class="muted">
+        Goal: Analyze a small packet capture and recover the hidden flag.
+      </p>
+    </header>
+
+    <!-- Challenge card -->
+    <div class="card">
+      <h2>Challenge Description</h2>
+      <p class="muted">Screenshot from the picoCTF challenge page:</p>
+
+      <div class="screenshot">
+        <img
+          src="./packets_primer/challenge.png"
+          alt="Packets Primer picoCTF challenge description"
+        />
+      </div>
+    </div>
+
+    <!-- Solution card -->
+    <div class="card">
+      <h2>Solution</h2>
+
+      <p>
+        Opening the provided PCAP in Wireshark shows that the capture is extremely small —
+        only 9 packets total. Scrolling through the packets, the flag can be seen directly
+        in the ASCII pane of one of the TCP payloads.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./packets_primer/wireshark_ascii.png"
+          alt="Wireshark showing the flag in the ASCII pane of a TCP packet"
+        />
+      </div>
+
+      <p>
+        An even faster method is using <code>strings</code>. Grepping for
+        <code>picoCTF</code> does not work here because the flag characters are separated
+        by spaces. Running <code>strings</code> alone reveals the flag clearly.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./packets_primer/strings_output.png"
+          alt="Terminal output showing strings extracting the spaced-out flag"
+        />
+      </div>
+
+      <h3>Flag</h3>
+      <p>
+        <code>picoCTF{p4ck37_5h4rk_ceccaa7f}</code>
+      </p>
+    </div>
+
+    <!-- Tools card -->
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li><strong>Wireshark</strong> — Inspect packet contents and view ASCII payloads.</li>
+        <li><strong>strings</strong> — Extract readable data directly from the PCAP.</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enhance! — picoCTF Forensics</title>
+
+  <!-- Shared CSS/JS -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">Enhance!</span>
+      </div>
+
+      <h1>Enhance!</h1>
+      <p class="badges">
+        <span class="badge">SVG</span>
+        <span class="badge">Ctrl+A</span>
+        <span class="badge">Copy/Paste</span>
+        <span class="badge">Hidden Text</span>
+      </p>
+
+      <p class="muted">
+        Goal: Find the tiny hidden flag text inside the SVG and reconstruct it (remove the spaces).
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Challenge Description</h2>
+
+      <p class="muted">Screenshot from the picoCTF challenge page:</p>
+
+      <div class="screenshot">
+        <img
+          src="./enhance/challenge.png"
+          alt="Screenshot of the picoCTF challenge description for Enhance!"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Challenge Overview</h2>
+      <p>
+        The file we’re given is <code>drawing.flag.svg</code>. Since it’s an SVG (vector image), the “image” can
+        contain real text objects — including text that’s so small you can’t see it normally.
+      </p>
+      <p>
+        The easiest way to reveal tiny text in an SVG is to select everything (<code>Ctrl + A</code>), which highlights
+        all objects on the page, including the hidden flag.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Solution</h2>
+
+      <h3>1) Open the SVG and select all</h3>
+      <p>
+        Open <code>drawing.flag.svg</code> in your browser. Then press <code>Ctrl + A</code>.
+        This highlights the tiny text near the center. Copy it (<code>Ctrl + C</code>) and paste it into a text editor.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./enhance/step-01.png"
+          alt="Browser view of drawing.flag.svg; selecting all highlights tiny hidden text in the center"
+        />
+      </div>
+
+      <h3>2) Remove the spaces</h3>
+      <p>
+        The copied flag appears with spaces between characters. Remove the spaces to get the real flag.
+      </p>
+
+      <h3>Flag</h3>
+      <p>
+        <code>picoCTF{3nh4nc3d_d0a757bf}</code>
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li>Web browser (open the SVG)</li>
+        <li>Keyboard shortcuts: <code>Ctrl + A</code>, <code>Ctrl + C</code></li>
+        <li>Any text editor (remove spaces)</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

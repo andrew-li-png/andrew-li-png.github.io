@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lookey here — picoCTF Forensics</title>
+
+  <!-- Shared CSS/JS -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">Lookey here</span>
+      </div>
+
+      <h1>Lookey here</h1>
+      <p class="badges">
+        <span class="badge">grep</span>
+        <span class="badge">strings</span>
+        <span class="badge">text</span>
+      </p>
+
+      <p class="muted">
+        Goal: Find the hidden <code>picoCTF{...}</code> flag inside a very large text file using the known prefix.
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Challenge Description</h2>
+
+      <p class="muted">Screenshot from the picoCTF challenge page:</p>
+
+      <div class="screenshot">
+        <img
+          src="./lookey_here/challenge.png"
+          alt="Screenshot of the picoCTF challenge description for Lookey here"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Challenge Overview</h2>
+      <p>
+        The download is a huge text file (<code>anthem.flag.txt</code>) with a ton of filler content.
+        The hint says to search using the known prefix — so instead of scrolling forever, we just
+        <code>grep</code> for <code>picoCTF{</code>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Solution</h2>
+
+      <h3>1) Search the file for the flag prefix</h3>
+      <p>
+        Since we know flags start with <code>picoCTF{</code>, we can grep for that string and pull the line instantly:
+      </p>
+
+      <pre><code>cat anthem.flag.txt | grep picoCTF</code></pre>
+
+      <div class="screenshot">
+        <img
+          src="./lookey_here/step-01.png"
+          alt="Terminal showing grep used on anthem.flag.txt to reveal the picoCTF flag"
+        />
+      </div>
+
+      <h3>Flag</h3>
+      <p>
+        <code>picoCTF{gr3p_15_@w3s0m3_58f5c024}</code>
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li><code>cat</code> (view file contents / pipe into grep)</li>
+        <li><code>grep</code> (search by known prefix)</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

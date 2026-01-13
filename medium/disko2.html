@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DISKO 2 — picoCTF Forensics</title>
+
+  <!-- Shared CSS/JS (note the ../../../ because we're 3 folders deep) -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">DISKO 2</span>
+      </div>
+
+      <h1>DISKO 2</h1>
+      <p class="badges">
+        <span class="badge">Disk Image</span>
+        <span class="badge">Autopsy</span>
+        <span class="badge">Strings</span>
+      </p>
+
+      <p class="muted">
+        Goal: Recover the <em>real</em> flag from a disk image (<code>.dd</code>) full of convincing decoys — and follow the hint:
+        <strong>“the right one is Linux.”</strong>
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Challenge Description</h2>
+
+      <p class="muted">
+        Screenshot from the picoCTF challenge page:
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./disko2/challenge.png"
+          alt="Screenshot of the picoCTF challenge description for DISKO 2"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Challenge Overview</h2>
+      <p>
+        This challenge starts out feeling just like <strong>DISKO 1</strong>: you’re given a disk image, so a quick
+        <code>strings</code> search seems like it should work. Except this time… it works <em>too</em> well.
+        I got a whole pile of “flags” with slightly different endings — classic decoy spam.
+      </p>
+      <p>
+        The description basically points you in the right direction: <strong>the correct partition is Linux</strong>.
+        So instead of trusting the raw <code>strings</code> output, the winning move is to isolate the Linux volume and
+        search inside the proper filesystem context.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Solution</h2>
+
+      <h3>1) Quick check: <code>strings</code> (and why it wasn’t enough)</h3>
+      <p>
+        My first attempt was the same approach that worked on DISKO 1:
+        run <code>strings</code> on the disk image and grep for <code>picoCTF</code> / <code>flag.txt</code>.
+        But this time, it returned <em>many</em> lookalike flags with slightly different suffixes.
+      </p>
+
+      <pre><code>strings disko-2.dd | grep -iE 'picoCTF|flag.txt'</code></pre>
+
+      <div class="screenshot">
+        <img
+          src="./disko2/strings.png"
+          alt="Screenshot showing strings output returning many decoy picoCTF-like flags"
+        />
+      </div>
+
+      <p class="muted">
+        Takeaway: <code>strings</code> is great for fast triage, but on a disk image it can pull in tons of unrelated
+        text from multiple partitions (including decoys). Time to narrow the scope.
+      </p>
+
+      <h3>2) Open the disk image in Autopsy and identify the Linux partition</h3>
+      <p>
+        Next, I loaded the <code>.dd</code> into <strong>Autopsy</strong> to get a clean view of the partition layout.
+        In the left pane, Autopsy showed <strong>four volumes</strong>. Based on the labels (and the challenge hint),
+        <strong>Volume 2</strong> stood out as the Linux partition.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./disko2/autopsy_volumes.png"
+          alt="Screenshot of Autopsy showing four volumes, with Volume 2 labeled Linux (0x83)"
+        />
+      </div>
+
+      <p class="muted">
+        This is the “hint moment”: the correct flag should be inside the Linux volume, not floating around randomly in the whole image.
+      </p>
+
+      <h3>3) View the Linux volume and hunt inside its text</h3>
+      <p>
+        Once I had the correct partition, I right-clicked the Linux volume and chose
+        <strong>View in New Window</strong>. Then I switched to the <strong>Text</strong> tab and paged through until I
+        found a single clean flag entry (not one of the many decoys).
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./disko2/autopsy_flag.png"
+          alt="Screenshot of Autopsy text view on the Linux volume showing the real picoCTF flag on page 15"
+        />
+      </div>
+
+      <h3>Flag</h3>
+      <p>
+        <code>picoCTF{4_P4Rt_1t_i5_90a3f3d1}</code>
+      </p>
+
+      <p class="muted">
+        Lesson learned: when a disk image is noisy, don’t grep the entire blob forever — isolate the correct partition first,
+        then search where the data is actually supposed to live.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li><code>strings</code> (quick triage / sanity check)</li>
+        <li><code>grep</code> (filtering candidate strings)</li>
+        <li>Autopsy (partition identification + filesystem-aware browsing)</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

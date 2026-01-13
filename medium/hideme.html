@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>hideme — picoCTF Forensics</title>
+
+  <!-- Use the SAME paths as your working template (endianness_v2.html).
+       If your template uses different relative paths, copy/paste them from there 1:1. -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">hideme</span>
+      </div>
+
+      <h1>hideme</h1>
+
+      <!-- Keep badge vocab normalized: tool name only -->
+      <p class="badges">
+        <span class="badge">binwalk</span>
+      </p>
+
+      <p class="muted">
+        A PNG that looks normal, but contains extra embedded data. Use <code>binwalk</code> to discover and extract it.
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>Challenge Description</h2>
+      <p class="muted">Screenshot from the picoCTF challenge page:</p>
+
+      <div class="screenshot">
+        <img
+          src="./hideme/challenge.png"
+          alt="Screenshot of the picoCTF challenge description for hideme"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Overview</h2>
+      <p>
+        We’re given a PNG (<code>flag.png</code>) that looks like a normal picoCTF logo. The description hints that
+        there’s “more than what meets the eye,” which usually means there’s extra data appended or embedded in the file.
+      </p>
+      <p>
+        The plan: use <code>binwalk</code> to scan for hidden content, extract it, then navigate to find the flag.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Solution</h2>
+
+      <h3>1) Detect + extract embedded data with <code>binwalk</code></h3>
+      <p>
+        First, I scanned the PNG with <code>binwalk</code> to identify hidden content. The output showed embedded data
+        containing a <code>secret/</code> directory and a hidden image. In the same step, I ran <code>binwalk -e</code>
+        to extract the embedded files.
+      </p>
+
+      <pre><code>binwalk flag.png
+binwalk -e flag.png</code></pre>
+
+      <div class="screenshot">
+        <img
+          src="./hideme/step-01.png"
+          alt="Single terminal screenshot showing binwalk and binwalk -e output"
+        />
+      </div>
+
+      <h3>2) Navigate to the extracted directory</h3>
+      <p>
+        After extraction, <code>binwalk</code> created an output folder (commonly named something like
+        <code>_flag.png.extracted</code>). Inside it, the <code>secret/</code> directory contained the hidden
+        <code>flag.png</code>.
+      </p>
+
+      <pre><code>ls
+cd _flag.png.extracted/
+ls
+cd secret/
+ls</code></pre>
+
+      <div class="screenshot">
+        <img
+          src="./hideme/step-02.png"
+          alt="Terminal navigation into _flag.png.extracted/secret/ showing the hidden flag.png"
+        />
+      </div>
+
+      <h3>3) Open the recovered image</h3>
+      <p>
+        Opening the extracted <code>secret/flag.png</code> reveals the flag.
+      </p>
+
+      <div class="screenshot">
+        <img
+          src="./hideme/result.png"
+          alt="Recovered image showing the picoCTF flag"
+        />
+      </div>
+
+      <h3>Flag</h3>
+      <p><code>picoCTF{Hiddinng_An_imag3_within_@n_ima9e_d55982e8}</code></p>
+    </div>
+
+    <div class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li><code>binwalk</code> (detect embedded data)</li>
+        <li><code>binwalk -e</code> (extract embedded files)</li>
+        <li>Basic shell navigation: <code>ls</code>, <code>cd</code></li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+</body>
+</html>

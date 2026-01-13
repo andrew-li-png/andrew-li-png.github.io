@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Can You See – picoCTF Write-up</title>
+
+  <!-- Same stylesheet used across your forensics write-ups -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">Can You See</span>
+      </div>
+
+      <h1>Can You See</h1>
+
+      <!-- Tool-focused tags -->
+      <p class="badges">
+        <span class="badge">ExifTool</span>
+        <span class="badge">Metadata</span>
+        <span class="badge">Base64</span>
+      </p>
+
+      <p class="muted">A classic “look past the image” metadata challenge.</p>
+    </header>
+
+    <div class="card">
+      <!-- Challenge Description -->
+      <section>
+        <h2>Challenge Description</h2>
+
+        <p class="muted">Screenshot from the picoCTF challenge page:</p>
+
+        <div class="screenshot">
+          <img
+            src="./can_you_see/challenge.png"
+            alt="picoCTF Can You See challenge description screenshot"
+            loading="lazy"
+          />
+        </div>
+
+        <p>
+          The prompt hints at a game of hide-and-seek. In other words, the flag isn’t
+          visible in the image itself — it’s hidden somewhere else.
+        </p>
+      </section>
+    </div>
+
+    <div class="card">
+      <!-- Challenge Overview -->
+      <section>
+        <h2>Challenge Overview</h2>
+        <p>
+          After unzipping the provided file, you’re given a single JPEG image.
+          The image looks completely normal, so the next logical step is to inspect
+          its metadata. Sure enough, a suspicious Base64 string is hiding in one of
+          the metadata fields.
+        </p>
+      </section>
+    </div>
+
+    <div class="card">
+      <!-- Solution -->
+      <section>
+        <h2>Solution</h2>
+
+        <ol class="steps">
+          <li>
+            <strong>Unzip the provided file.</strong>
+            <p>
+              Extracting the archive gives a single image:
+              <code>ukn_reality.jpg</code>.
+            </p>
+          </li>
+
+          <li>
+            <strong>Inspect the metadata with ExifTool.</strong>
+            <p>
+              Since the image itself didn’t show anything interesting, I ran
+              <code>exiftool</code> to check for hidden metadata:
+            </p>
+
+            <pre><code>exiftool ukn_reality.jpg</code></pre>
+
+            <div class="screenshot">
+              <img
+                src="./can_you_see/exiftool.png"
+                alt="ExifTool output showing a Base64 string in the Attribution URL field"
+                loading="lazy"
+              />
+            </div>
+
+            <p>
+              In the <strong>Attribution URL</strong> field, there was a long,
+              suspicious Base64-looking string.
+            </p>
+          </li>
+
+          <li>
+            <strong>Decode the Base64 string.</strong>
+            <p>
+              Copying that value into CyberChef and decoding it from Base64
+              immediately revealed the flag.
+            </p>
+          </li>
+
+            <pre><code>picoCTF{ME74D47A_HIDD3N_a6df8db8}</code></pre>
+
+        </ol>
+
+        <div class="note">
+          <strong>Quick takeaway</strong>
+          <p class="muted">
+            When an image looks boring, always check the metadata.
+            ExifTool catches a surprising number of easy forensics flags.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <div class="card">
+      <!-- Tools Used -->
+      <section>
+        <h2>Tools Used</h2>
+        <ul class="tools">
+          <li><strong>ExifTool</strong> — inspect image metadata</li>
+          <li><strong>CyberChef</strong> — decode Base64</li>
+          <li><strong>Unzip</strong> — extract the provided archive</li>
+        </ul>
+      </section>
+    </div>
+
+    <footer>
+      <p>Write-up by Andrew Li</p>
+    </footer>
+  </div>
+
+  <script src="../../../assets/site.js" defer></script>
+</body>
+</html>

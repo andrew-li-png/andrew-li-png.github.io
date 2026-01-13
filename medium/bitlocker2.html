@@ -1,0 +1,105 @@
+<article class="challenge" id="bitlocker-2">
+  <div class="challenge-header">
+    <h2>BitLocker 2</h2>
+    <div class="meta">
+      <span class="badge">Memory Forensics &amp; Disk Decryption</span>
+      <span>PicoCTF / Hard</span>
+    </div>
+  </div>
+
+  <!-- Shared CSS/JS -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <script defer src="../../../assets/site.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="tagline breadcrumbs">
+        <a class="crumb" href="../../../index.html">Home</a>
+        <a class="crumb" href="../../index.html">picoCTF</a>
+        <a class="crumb" href="../index.html">Forensics</a>
+        <span class="crumb-current">Bitlocker-2</span>
+      </div>
+
+  <div class="body">
+    <div class="section-title">Challenge Description</div>
+    <p>
+      The target machine had a BitLocker-encrypted volume, but we were given a RAM dump taken
+      while the drive was unlocked and a disk image (<code>bitlocker-2.dd</code>). The task:
+      recover the BitLocker keys from memory, decrypt the disk, and retrieve the flag.
+    </p>
+
+    <!-- Screenshot example: Volatility finding FVEKs -->
+    <!--
+    <figure class="screenshot">
+      <img src="images/bitlocker2_volatility_fvek.png" alt="Volatility BitLocker plugin showing FVEKs">
+      <figcaption>Volatility 2 BitLocker plugin extracting multiple FVEKs from the RAM dump.</figcaption>
+    </figure>
+    -->
+
+    <div class="section-title">Approach</div>
+    <p>
+      I started by trying <code>volatility3</code> in Kali WSL, but the image produced page faults
+      and lacked a working BitLocker plugin. I pivoted to <code>volatility2</code> and, after some
+      dependency pain and profile guessing, used the
+      <code>breppo/Volatility-BitLocker</code> plugin to hunt for BitLocker keys in the RAM.
+    </p>
+    <p>
+      Once the plugin was working with the correct profile
+      (<code>Win10x64_19041</code>), it recovered several Full Volume Encryption Keys (FVEKs),
+      including an AES-XTS 128-bit key that matched the challenge volume. I then used
+      <code>dislocker</code> with that FVEK to produce a decrypted NTFS image and mounted it to
+      browse the filesystem for the flag.
+    </p>
+
+    <div class="section-title">Key Steps & Commands</div>
+    <ul>
+      <li>Move the RAM dump to a native Linux path for speed:
+        <pre><code>cp /mnt/c/Users/Andrew/Downloads/memdump.mem ~/memdump.mem</code></pre>
+      </li>
+      <li>Run Volatility 2 with the BitLocker plugin:
+        <pre><code>python2 vol.py -f ~/memdump.mem --profile=Win10x64_19041 \
+  bitlocker --dislocker ~/bitlocker_dumps</code></pre>
+      </li>
+      <li>Use the generated <code>.fvek</code> file with dislocker:
+        <pre><code>sudo dislocker -V /mnt/c/Users/Andrew/Downloads/bitlocker-2.dd \
+  -k /home/Andrew/bitlocker_dumps/0x8087865bead0-Dislocker.fvek \
+  -- /mnt/c/Users/Andrew/Downloads/Bitlocker2_raw</code></pre>
+      </li>
+      <li>Mount the decrypted NTFS volume and grab the flag:
+        <pre><code>sudo ntfs-3g /mnt/c/Users/Andrew/Downloads/Bitlocker2_raw/dislocker-file \
+  /mnt/c/Users/Andrew/Downloads/Bitlocker2_mount</code></pre>
+      </li>
+    </ul>
+
+    <!-- Screenshot example: dislocker-file identified as NTFS -->
+    <!--
+    <figure class="screenshot">
+      <img src="images/bitlocker2_file_ntfs.png" alt="file(1) output showing dislocker-file as NTFS">
+      <figcaption><code>file</code> confirming that <code>dislocker-file</code> is a valid NTFS volume.</figcaption>
+    </figure>
+    -->
+
+    <div class="section-title">What Went Wrong (and How I Fixed It)</div>
+    <ul>
+      <li><strong>Volatility 3 issues:</strong> page faults, no BitLocker plugin, and poor support for this RAM image &rarr; switched to Volatility 2.</li>
+      <li><strong>Profile detection:</strong> <code>imageinfo</code> hung for a long time, so I used writeups + trial profiles to land on <code>Win10x64_19041</code>.</li>
+      <li><strong>Wrong dislocker mode:</strong> I initially tried to pass raw hex keys with <code>-K</code>, which failed. The correct method was using the plugin’s <code>.fvek</code> files with <code>-k FVEK_FILE</code>.</li>
+      <li><strong>WSL mount failures:</strong> mounting <code>dislocker-file</code> from my home directory under WSL caused repeated <code>Permission denied</code> errors (FUSE-on-FUSE weirdness). Moving the
+        decrypted data and mountpoint under <code>/mnt/c/Users/Andrew/Downloads/</code> made
+        <code>ntfs-3g</code> work normally and finally exposed the NTFS volume.
+      </li>
+    </ul>
+
+    <div class="section-title">Lessons Learned</div>
+    <p>
+      This challenge forced me to combine memory forensics, Windows internals, and practical
+      decryption tooling. The big takeaways: older Windows RAM images often require
+      <code>volatility2</code>, BitLocker keys in RAM are best handled via a dedicated plugin that
+      emits dislocker-ready FVEK files, and WSL’s filesystem/FUSE quirks can break mounting
+      decrypted images unless you plan your paths carefully. Once those pieces were aligned, the
+      decrypted NTFS volume mounted cleanly and the flag was just another file on disk.
+    </p>
+  </div>
+</article>
