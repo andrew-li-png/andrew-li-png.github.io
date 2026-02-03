@@ -1,0 +1,33 @@
+disabled = false
+languageCode = "en"
+languageName = "English"
+weight = 1
+
+# Site title shown in header + browser title
+title = "Andrew Li"
+
+[params]
+  displayName = "EN"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  description = "Cybersecurity portfolio featuring CTF writeups, digital forensics projects, and malware analysis labs."
+  # logo = "img/logo.png"
+  # secondaryLogo = "img/secondary-logo.png"
+  # copyright = "© 2026 Andrew Li"
+
+[params.author]
+  name = "Andrew Li"
+  # Email is optional — leaving it out reduces spam risk on a public site.
+  # If you want it visible, uncomment the line below.
+  # email = "andrewli001@outlook.com"
+  headline = "Cybersecurity student at Penn State"
+  bio = ""
+  links = [
+    { github = "https://github.com/andrew-li-png" },
+    { linkedin = "https://www.linkedin.com/in/andrew-li-cyber/" },
+    # { link = "https://johncoconut001.github.io/forensics-ctf-portfolio/" },
+    # { email = "mailto:andrewli001@outlook.com" },
+  ]
+  # image = "img/profile.jpg"
+  # imageQuality = 96

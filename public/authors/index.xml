@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Authors on Andrew Li</title>
+    <link>https://andrew-li-png.github.io/authors/</link>
+    <description>Recent content in Authors on Andrew Li</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2026 Andrew Li</copyright>
+    <atom:link href="https://andrew-li-png.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
+    
+  </channel>
+</rss>

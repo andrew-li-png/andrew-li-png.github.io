@@ -1,0 +1,13 @@
+{{- $root := site.GetPage "section" "writeups" -}}
+{{- if $root -}}
+## Navigation 🗺️
+
+{{- range $root.Sections -}}
+### {{ .Title }}
+- [All Writeups]({{ .RelPermalink }})
+{{- range .Sections -}}
+- [{{ .Title }}]({{ .RelPermalink }})
+{{- end -}}
+
+{{- end -}}
+{{- end -}}

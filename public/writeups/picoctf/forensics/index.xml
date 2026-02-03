@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Forensics on Andrew Li</title>
+    <link>https://andrew-li-png.github.io/writeups/picoctf/forensics/</link>
+    <description>Recent content in Forensics on Andrew Li</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2026 Andrew Li</copyright>
+    <lastBuildDate>Fri, 30 Jan 2026 02:59:54 -0500</lastBuildDate><atom:link href="https://andrew-li-png.github.io/writeups/picoctf/forensics/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Event Viewing</title>
+      <link>https://andrew-li-png.github.io/writeups/picoctf/forensics/event_viewing/</link>
+      <pubDate>Fri, 30 Jan 2026 02:59:54 -0500</pubDate>
+      
+      <guid>https://andrew-li-png.github.io/writeups/picoctf/forensics/event_viewing/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Disko 2</title>
+      <link>https://andrew-li-png.github.io/writeups/picoctf/forensics/disko2/</link>
+      <pubDate>Fri, 30 Jan 2026 02:46:17 -0500</pubDate>
+      
+      <guid>https://andrew-li-png.github.io/writeups/picoctf/forensics/disko2/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Eavesdrop</title>
+      <link>https://andrew-li-png.github.io/writeups/picoctf/forensics/eavesdrop/</link>
+      <pubDate>Fri, 30 Jan 2026 02:25:38 -0500</pubDate>
+      
+      <guid>https://andrew-li-png.github.io/writeups/picoctf/forensics/eavesdrop/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Operation Orchid</title>
+      <link>https://andrew-li-png.github.io/writeups/picoctf/forensics/operation_orchid/</link>
+      <pubDate>Fri, 30 Jan 2026 01:40:38 -0500</pubDate>
+      
+      <guid>https://andrew-li-png.github.io/writeups/picoctf/forensics/operation_orchid/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Bitlocker 1</title>
+      <link>https://andrew-li-png.github.io/writeups/picoctf/forensics/bitlocker1/</link>
+      <pubDate>Fri, 30 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://andrew-li-png.github.io/writeups/picoctf/forensics/bitlocker1/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

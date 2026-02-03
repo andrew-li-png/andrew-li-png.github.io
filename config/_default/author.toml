@@ -1,0 +1,10 @@
+name = "Andrew Li"
+headline = "Forensics CTF writeups"
+bio = "Cybersecurity Analytics & Operations @ Penn State"
+
+# Put an image at: static/img/author.jpg
+image = "img/author.jpg"
+
+links = [
+  { github = "https://github.com/johncoconut001" }
+]
